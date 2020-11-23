@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bienvenue sur ChiFouMi</title>
+<title>Bienvenue sur la Filmothèque</title>
 <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap-theme.min.css">
 <script src="js/jquery.min.js"></script>
@@ -25,20 +25,28 @@
 			<h1 class="absolute-top">Bienvenue sur Filmothèque</h1>
 			
 			<div class="player-selection-container box-shadow">
-				<form method="POST" action="/chiFouMi/createPlayer">
-					<div class="form-group">
-						<label for="film">Rechercher un film</label>
-						<input type="text" class="form-control" name="film" placeholder="Votre film">
+				<form:form method="POST" action="/filmotheque/addFilm" modelAttribute="film">
+					<div class="from-group">
+						<form:label path="titre">Titre :</form:label>
+						<form:input path="titre" />		
 					</div>
-					<div class="form-group">
-						<input type="submit" class="form-control btn btn-primary" value="Rechercher">
+							
+					<div class="from-group">
+						<form:label path="anneeSortie">Année de sortie :</form:label>
+						<form:input path="anneeSortie" />
 					</div>
-				</form>
+
+					<input type="submit" value="Ajouter" />
+				</form:form>
 			</div>
 			
 			<div class="films-container">
-			<h3>Liste de tous les films</h3>
-				<p>${film.titre}</p>
+			<h3>Liste de tous les films :</h3>
+				<ul>
+					<c:forEach items="${listfilms}" var="film">
+						<li>${film.titre} ${film.anneeSortie} <a href="/filmotheque/delete?id=${film.id}">supprimer</a></li>
+					</c:forEach>
+				</ul>
 			</div>
 			
 		</div>

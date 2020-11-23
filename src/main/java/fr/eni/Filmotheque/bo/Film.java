@@ -2,14 +2,26 @@ package fr.eni.Filmotheque.bo;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Film {
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	private String titre;
 	// Objet date issu du package java.sql qui n'encapsule que la date sans la partie horaire.
-	private Date anneeSortie;
+	private String anneeSortie;
+	
+	public Film() {
+		
+	}
 	
 	// Constructeur utilisant tous les attributs.
-	public Film(int id, String titre, Date anneeSortie) {
+	public Film(Long id, String titre, String anneeSortie) {
 		super();
 		this.id = id;
 		this.titre = titre;
@@ -17,11 +29,11 @@ public class Film {
 	}
 
 	// Getters & Setters
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -33,11 +45,11 @@ public class Film {
 		this.titre = titre;
 	}
 
-	public Date getAnneeSortie() {
+	public String getAnneeSortie() {
 		return anneeSortie;
 	}
 
-	public void setAnneeSortie(Date anneeSortie) {
+	public void setAnneeSortie(String anneeSortie) {
 		this.anneeSortie = anneeSortie;
 	}
 
