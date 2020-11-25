@@ -1,32 +1,52 @@
 package fr.eni.Filmotheque.bo;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Film {
+public class Film implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String titre;
-	// Objet date issu du package java.sql qui n'encapsule que la date sans la partie horaire.
 	private String anneeSortie;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	private Categorie categorie;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="film", fetch = FetchType.LAZY)
+	private List<Avis> listeAvis;
 	
 	public Film() {
 		
 	}
 	
-	// Constructeur utilisant tous les attributs.
+	// Constructeur avec attributs film.
 	public Film(Long id, String titre, String anneeSortie) {
 		super();
 		this.id = id;
 		this.titre = titre;
 		this.anneeSortie = anneeSortie;
 	}
+	
+	// Constructeur utilisant tous les attributs.
+		public Film(Long id, String titre, String anneeSortie, Categorie categorie, List<Avis> listeAvis) {
+			super();
+			this.id = id;
+			this.titre = titre;
+			this.anneeSortie = anneeSortie;
+			this.categorie = categorie;
+			this.listeAvis = listeAvis;
+		}
 
 	// Getters & Setters
 	public Long getId() {
@@ -53,10 +73,26 @@ public class Film {
 		this.anneeSortie = anneeSortie;
 	}
 
+	public Categorie getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
+	}
+
+	public List<Avis> getListeAvis() {
+		return listeAvis;
+	}
+
+	public void setListeAvis(List<Avis> listeAvis) {
+		this.listeAvis = listeAvis;
+	}
+
 	// To String
 	@Override
 	public String toString() {
-		return "Film [id=" + id + ", titre=" + titre + ", anneeSortie=" + anneeSortie + "]";
+		return "[id=" + id + ", titre=" + titre + ", anneeSortie=" + anneeSortie + "]";
 	}
 	
 	

@@ -1,9 +1,11 @@
 package fr.eni.Filmotheque.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import fr.eni.Filmotheque.bo.Categorie;
 import fr.eni.Filmotheque.bo.Film;
 import fr.eni.Filmotheque.dal.FilmRepository;
 
@@ -38,4 +40,24 @@ public class FilmServiceImpl implements FilmService{
 		return liste;
 	}
 
+	@Override
+	public List<Film> findFilmByTitle(String name) {
+		List<Film> liste = (List<Film>) filmDAO.findByTitle(name);
+		System.out.println("The list : " + liste);
+		return liste;
+	}
+
+	@Override
+	public Film findFilmDetails(Long id) {
+		Optional<Film> film = filmDAO.findById(id);
+		System.out.println("Le film : " + film);
+		
+		if(film.isPresent()) {
+			Film filmDetails = film.get();
+			return filmDetails;
+		} else {
+			return null;
+		}
+	
+	}
 }
