@@ -48,6 +48,15 @@ public class FilmothequeController {
 		response.addAttribute("listfilms", liste);
 		return "index";
 	}
+	
+	@PostMapping("/searchFilm")
+	public String resultatsRechercheFilms(@RequestParam(name="film") String film, Model response) {
+		System.out.println("Le titre du film recherché : " + film);
+		List<Film> films = filmService.findFilmByTitle(film);
+		System.out.println("Liste des films retrouvés : " + films);
+		response.addAttribute("listfilms", films);
+		return "resultatsRecherche";
+	}
 
 	@PostMapping("/addFilm")
 	public String index(@ModelAttribute("film") Film film) {
@@ -64,7 +73,7 @@ public class FilmothequeController {
 	}
 	
 	@GetMapping("/details")
-	public String index(@RequestParam Long id, Model response) {
+	public String details(@RequestParam Long id, Model response) {
 		//System.out.println("Méthode details dans le controller. Id = " + id);
 		String msg = "Nous n'avons trouvé aucune information sur ce film";
 		Film film = this.filmService.findFilmDetails(id);
