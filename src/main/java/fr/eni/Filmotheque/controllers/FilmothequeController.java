@@ -18,10 +18,12 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import fr.eni.Filmotheque.bo.Categorie;
 import fr.eni.Filmotheque.bo.Film;
+import fr.eni.Filmotheque.bo.Individu;
 import fr.eni.Filmotheque.bo.User;
 import fr.eni.Filmotheque.services.CategorieService;
 import fr.eni.Filmotheque.services.FilmService;
 import fr.eni.Filmotheque.services.UserService;
+import fr.eni.Filmotheque.services.IndividuService;
 
 @Controller
 @SessionAttributes({"listeFilms"})
@@ -29,12 +31,15 @@ public class FilmothequeController {
 	// Injection des services.
 	private FilmService filmService;
 	private CategorieService categorieService;
+	private IndividuService individuService;
 	
 
 	// Constructeur avec injection du service.
-	public FilmothequeController(FilmService filmService, CategorieService categorieService) {
+	public FilmothequeController(FilmService filmService, CategorieService categorieService, IndividuService individuService) {
 		this.filmService = filmService;
 		this.categorieService = categorieService;
+		this.individuService = individuService;
+		
 	}
 
 	@ModelAttribute("film")
@@ -66,9 +71,12 @@ public class FilmothequeController {
 	
 	@GetMapping("/addFilm")
 	public String addFilm(Model response) {
-		// On récupère les catégories de films afin de les ajouter au select du formulaire.
+		// On récupère les catégories de films afin de les ajouter au select du formulaire
+		List<Individu> realisateurs = this.individuService.findAllRealisateur();
+		System.out.println("Liste des réal dans le controlleur"+realisateurs);
 		List<Categorie> categories = this.categorieService.getCategories();
 		response.addAttribute("categories", categories);
+		response.addAttribute("realisateurs", realisateurs);
 		return "addFilm";
 	}
 

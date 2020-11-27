@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -25,6 +28,12 @@ public class Film implements Serializable {
 	private Categorie categorie;
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="film", fetch = FetchType.EAGER)
 	private List<Avis> listeAvis;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	private Individu realisateur;
+//	@ManyToMany(cascade={ CascadeType.PERSIST, CascadeType.MERGE})
+//	@JoinTable(name="film_individu",
+//				joinColumns= {@JoinColumn(name="filmId")}, inverseJoinColumns= {@JoinColumn(name="acteurId")})
+//	private List<Individu> listeActeurs;
 	
 	public Film() {
 		
@@ -39,13 +48,17 @@ public class Film implements Serializable {
 	}
 	
 	// Constructeur utilisant tous les attributs.
-		public Film(Long id, String titre, String anneeSortie, Categorie categorie, List<Avis> listeAvis) {
+		public Film(Long id, String titre, String anneeSortie, Categorie categorie, List<Avis> listeAvis, Individu realisateur
+//				, List<Individu> listeActeurs
+				) {
 			super();
 			this.id = id;
 			this.titre = titre;
 			this.anneeSortie = anneeSortie;
 			this.categorie = categorie;
 			this.listeAvis = listeAvis;
+			this.realisateur = realisateur;
+//			this.listeActeurs = listeActeurs;
 		}
 
 	// Getters & Setters
@@ -88,13 +101,30 @@ public class Film implements Serializable {
 	public void setListeAvis(List<Avis> listeAvis) {
 		this.listeAvis = listeAvis;
 	}
+	
 
-	// To String
+	public Individu getRealisateur() {
+		return realisateur;
+	}
+
+	public void setRealisateur(Individu realisateur) {
+		this.realisateur = realisateur;
+	}
+
 	@Override
 	public String toString() {
-		return "[id=" + id + ", titre=" + titre + ", anneeSortie=" + anneeSortie + "]";
+		return "Film [id=" + id + ", titre=" + titre + ", anneeSortie=" + anneeSortie + ", categorie=" + categorie
+				+ ", listeAvis=" + listeAvis + ", realisateur=" + realisateur + "]";
 	}
-	
-	
-	
+
+//	public List<Individu> getListeActeurs() {
+//		return listeActeurs;
+//	}
+//
+//	public void setListeActeurs(List<Individu> listeActeurs) {
+//		this.listeActeurs = listeActeurs;
+//	}
+
+
+
 }
