@@ -23,7 +23,7 @@ public class Film implements Serializable {
 	private String anneeSortie;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
 	private Categorie categorie;
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="film", fetch = FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="film", fetch = FetchType.EAGER)
 	private List<Avis> listeAvis;
 	
 	public Film() {

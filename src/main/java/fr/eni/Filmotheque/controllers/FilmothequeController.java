@@ -4,6 +4,8 @@ package fr.eni.Filmotheque.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,18 +14,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import fr.eni.Filmotheque.bo.Categorie;
 import fr.eni.Filmotheque.bo.Film;
+import fr.eni.Filmotheque.bo.User;
 import fr.eni.Filmotheque.services.CategorieService;
 import fr.eni.Filmotheque.services.FilmService;
+import fr.eni.Filmotheque.services.UserService;
 
 @Controller
-@SessionAttributes("listeFilms")
+@SessionAttributes({"listeFilms"})
 public class FilmothequeController {
-	// Injection du service film.
+	// Injection des services.
 	private FilmService filmService;
 	private CategorieService categorieService;
+	
 
 	// Constructeur avec injection du service.
 	public FilmothequeController(FilmService filmService, CategorieService categorieService) {
@@ -77,23 +83,10 @@ public class FilmothequeController {
 		//System.out.println("Méthode details dans le controller. Id = " + id);
 		String msg = "Nous n'avons trouvé aucune information sur ce film";
 		Film film = this.filmService.findFilmDetails(id);
+		System.out.println("Les avis : " + film);
 		
 		response.addAttribute("detailsFilm", film);
 	
 		return "details";
-	}
-	
-	/**
-	 * Réceptionne l'input utilisateur en Ajax pour la recherche de film et renvoie la liste de films qui corresponde dans la base.
-	 * @param query
-	 * @return
-	 */
-	@GetMapping(value="/filmAjaxSearch", produces = "application/json")
-	@ResponseBody
-	public ResponseBody filmSearch(@RequestParam String query) {
-		System.out.println("Ajax : " + query);
-		List<Film> liste = this.filmService.findFilmByTitle(query);
-		
-		return null;
 	}
 }

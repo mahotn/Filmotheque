@@ -53,7 +53,9 @@
 									</td>
 									<td>
 									<a href="/filmotheque/details?id=${film.id}">détails</a>
-									<a href="/filmotheque/delete?id=${film.id}">supprimer</a>
+									<c:if test="${user != null }">
+										<a href="/filmotheque/delete?id=${film.id}">supprimer</a>
+									</c:if>
 									</td>
 								</tr>
 							</c:forEach>

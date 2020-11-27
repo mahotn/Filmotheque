@@ -23,6 +23,7 @@
 
 </head>
 <body>
+<jsp:include page="header.jsp"></jsp:include>
 	<div class="container">
 	
 		<div class="center-screen">
@@ -30,11 +31,25 @@
 			<h1 class="absolute-top">Bienvenue sur Filmothèque</h1>
 			
 			<div class="films-container">
-				<div class="page-header">
+				
 					<div class="row align-items-center">
 						<div class="col-auto">
-							<h2 class="page-title">Détails du film ${detailsFilm.titre}</h2>
+							<h2 class="page-title">${detailsFilm.titre} <small>Détails du film</small></h2>
 						</div>
+					</div>
+			
+					<div>
+					<h3>Liste des avis</h3>
+					
+					<c:forEach items="${detailsFilm.listeAvis}" var="avis">
+						<div class="card">
+							<div class="card-body">
+								<h3 class="card-title">Card title</h3>
+									<div class="card-subtitle">Card sub</div>
+									<p>${avis.contenu}</p>
+							</div>
+						</div>
+					</c:forEach>
 					</div>
 				</div>
 				
