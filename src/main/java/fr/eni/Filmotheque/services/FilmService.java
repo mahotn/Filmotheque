@@ -9,6 +9,7 @@ import fr.eni.Filmotheque.bo.Film;
 public interface FilmService {
 	List<Film> listAllFilms();
 	void addFilm(Film film);
+	void editFilm(Film film);
 	void deleteFilm(Long id);
 	List<Film> findFilmByTitle(String name);
 	Film findFilmDetails(Long id);

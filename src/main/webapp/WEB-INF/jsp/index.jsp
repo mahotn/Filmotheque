@@ -29,6 +29,7 @@
 	<div class="container">
 	
 		<div class="center-screen">
+			<h1>Accueil</h1>
 			
 			<c:if test="${error != null }">
 				<!--  Error message login -->
@@ -82,9 +83,12 @@
 									${film.categorie.libelle}
 									</td>
 									<td>
-									<a href="/filmotheque/details?id=${film.id}">détails</a>
+									<a href="/filmotheque/details?id=${film.id}">Détails</a>
 									<c:if test="${user != null }">
-										<a href="/filmotheque/delete?id=${film.id}">supprimer</a>
+										<c:if test="${user.admin == true }">
+											<a href="/filmotheque/editFilm?id=${film.id}">Modifier</a>
+											<a href="/filmotheque/delete?id=${film.id}">supprimer</a>
+										</c:if>
 									</c:if>
 									</td>
 								</tr>

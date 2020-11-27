@@ -3,15 +3,30 @@
 		<div class="container-xl">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"><span class="navbar-toggler-icon"></span></button>
 			<!--  Logo -->
-			<a href="." class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">Filmothèque</a>
-		
+			<a href="/filmotheque/index" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">Filmothèque</a>
+			
+			<c:if test="${user != null}">
+				<c:if test="${user.admin == true }">
+					<div class="nav-menu">
+						<a href="/filmotheque/addFilm">Ajouter un film</a>
+						<a href="/filmotheque/editFilms">Modifier un film</a>
+						<a href="/filmotheque/deleteFilms">Supprimer un film</a>
+					</div>
+				</c:if>
+			</c:if>
+			
 			<!-- Traitement conditionnel pour l'affichage du formulaire de connexion -->
 			<c:choose>
 				<c:when test="${user != null }">
 					<div class="nav-item dropdown">
 					<a href="#" class="nav-link d-flex 1h-1 text-reset p-0" data-toggle="dropdown">
 						<div class="d-none d-xl-block pl-2">
-							<div>${user.prenom} ${user.nom }</div>
+							<div>
+								${user.prenom} ${user.nom }
+								<c:if test="${user.admin == true }">
+									(admin)
+								</c:if>
+							</div>
 						</div>	
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">

@@ -25,6 +25,19 @@ public class FilmServiceImpl implements FilmService{
 	public void addFilm(Film film) {
 		filmDAO.save(film);
 	}
+	
+	@Override
+	public void editFilm(Film film) {
+		Optional<Film> filmToUpdate = filmDAO.findById(film.getId());
+		
+		if(filmToUpdate.isPresent()) {
+			Film instanceFilm = filmToUpdate.get();
+			instanceFilm.setTitre(film.getTitre());
+			instanceFilm.setAnneeSortie(film.getAnneeSortie());
+			instanceFilm.setCategorie(film.getCategorie());
+			filmDAO.save(instanceFilm);
+		}
+	}
 
 	/**
 	 * Méthode pour effacer un film. Prend un ID de type Long en paramètre.

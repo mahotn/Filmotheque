@@ -42,7 +42,7 @@ public class FilmothequeController {
 		return new Film();
 	}
 
-	@GetMapping("/index")
+	@GetMapping({"", "/", "/index"})
 	public String index(Model response) {
 		// On récupère les catégories de films afin de les ajouter au select du formulaire.
 		List<Categorie> categories = this.categorieService.getCategories();
@@ -63,14 +63,72 @@ public class FilmothequeController {
 		response.addAttribute("listfilms", films);
 		return "resultatsRecherche";
 	}
+	
+	@GetMapping("/addFilm")
+	public String addFilm(Model response) {
+		// On récupère les catégories de films afin de les ajouter au select du formulaire.
+		List<Categorie> categories = this.categorieService.getCategories();
+		response.addAttribute("categories", categories);
+		return "addFilm";
+	}
 
 	@PostMapping("/addFilm")
-	public String index(@ModelAttribute("film") Film film) {
+	public String addFilm(@ModelAttribute("film") Film film) {
 		// Appel de la méthode pour ajouter un film.
 		this.filmService.addFilm(film);
 		return "redirect:index";
 	}
+	
+	@GetMapping("/editFilms")
+	public String editFilms(Model response) {
+		// On récupère les catégories de films afin de les ajouter au select du formulaire.
+		List<Categorie> categories = this.categorieService.getCategories();
+		// On récupère la liste des films.
+		List<Film> liste = this.filmService.listAllFilms();
+		System.out.println("La liste des films dans le controller : " + liste);
+		// On envoie la liste de film et les catégories de la base vers le front.
+		response.addAttribute("categories", categories);
+		response.addAttribute("listfilms", liste);
+		return "editFilms";
+	}
+	
+	@GetMapping("/editFilm")
+	public String editForm(@RequestParam Long id, Model response) {
+		System.out.println("Entrée dans la méthode editFilm requête GET");
+		System.out.println("Le param id : " + id);
+		
+		// On récupère les catégories de films afin de les ajouter au select du formulaire.
+		List<Categorie> categories = this.categorieService.getCategories();
+		response.addAttribute("categories", categories);
+		
+		// On charge le film dans le formulaire.
+		Film film = this.filmService.findFilmDetails(id);
+		System.out.println("Le film rec : " + film);
+		response.addAttribute("film", film);
+		
+		return "editFilm";
+	}
 
+	@PostMapping("/editFilm")
+	public String edit(@ModelAttribute("film") Film film) {
+		System.out.println("Le film à éditer : " + film);
+		this.filmService.editFilm(film);
+		return "redirect:index";
+	}
+	
+	@GetMapping("/deleteFilms")
+	public String deleteFilms(Model response) {
+		// On récupère les catégories de films afin de les ajouter au select du formulaire.
+		List<Categorie> categories = this.categorieService.getCategories();
+		// On récupère la liste des films.
+		List<Film> liste = this.filmService.listAllFilms();
+		System.out.println("La liste des films dans le controller : " + liste);
+		// On envoie la liste de film et les catégories de la base vers le front.
+		response.addAttribute("categories", categories);
+		response.addAttribute("listfilms", liste);
+		return "deleteFilms";
+	}
+	
 	@GetMapping("/delete")
 	public String index(@RequestParam Long id) {
 		System.out.println("Méthode delete dans le controller. Id = " + id);
